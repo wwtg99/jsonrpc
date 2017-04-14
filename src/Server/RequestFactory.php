@@ -113,6 +113,9 @@ class RequestFactory
         if (isset($data['jsonrpc']) && $data['jsonrpc'] == '2.0' && isset($data['method'])) {
             $method = $data['method'];
             $params = isset($data['params']) ? $data['params'] : null;
+            if ($params && is_string($params)) {
+                $params = json_decode($params, true);
+            }
             $id = isset($data['id']) ? $data['id'] : null;
             return new JsonRpcRequest($method, $id, $params);
         }

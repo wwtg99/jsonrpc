@@ -9,34 +9,47 @@ composer require wwtg99/jsonrpc
 
 ## Usage
 ### Server Side
-1. Bind Method
+1. Add JsonRpcServiceProvider in Laravel app providers
 ```
-$ph = new ProcessHandler();
+Wwtg99\JsonRpc\Provider\JsonRpcServiceProvider::class
+```
+
+2. Bind Methods
+```
+$ph = resolve('ProcessHandler');
 //bind function
 $ph->bind('m1', function($request) {
     return [1, 2, 3];
 });
 //bind method
+namespace Test;
+class BindingTest {
+    public function test1($request) 
+    {
+    }
+}
 $ph->bind('m2', 'Test\BindingTest@test1');
 ```
 
-2. Use Laravel or other framework to build web service
-Register in laravel 
+3. Add `use JsonRpcRequestTrait;` in Controller, add codes in your controller
 ```
-$this->app->singleton('ProcessHandler', function ($app) {
-    return new ProcessHandler();
-});
-//bind methods
-```
-In the Controller
-```
-$req = RequestFactory::parse(request()->getContent());
-$handler = resolve('ProcessHandler');
-$res = $handler->execute($req)->getResponseArray();
+$res = $this->parseJsonRpc($request);
 return response()->json($res, 200, [], JSON_UNESCAPED_UNICODE);
 ```
 
-3. Send request in client
+4. Add route
+```
+Route::match(['GET', 'POST'], '/json_rpc', 'YourController@jsonrpc');
+```
+Or simply add route without controller
+```
+Route::match(['GET', 'POST'], '/json_rpc', function (Request $request) {
+    return Wwtg99\JsonRpc\Provider\JsonRpcRouter::parse($request);
+});
+```
+
+### Client Side
+1. Send request in client
 ```
 $cli = new JsonRpcClient();
 $req1 = new JsonRpcRequest('m1', 1, [1, 2, 3]);
