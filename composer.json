@@ -1,0 +1,26 @@
+{
+    "name": "wwtg99/jsonrpc",
+    "type": "library",
+    "keywords": ["jsonrpc", "laravel"],
+    "authors": [
+        {
+            "name": "wuwentao",
+            "email": "wwu@genowise.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {"Wwtg99\\JsonRpc\\": "src"}
+    },
+    "require": {
+        "guzzlehttp/guzzle": "~6.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~5.7"
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
+        }
+    }
+}
