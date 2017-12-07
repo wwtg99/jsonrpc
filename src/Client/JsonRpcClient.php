@@ -31,6 +31,11 @@ class JsonRpcClient
     protected $returnType = 'json';  //json, string
 
     /**
+     * @var string
+     */
+    protected $httpMethod = 'post';
+
+    /**
      * @var array
      */
     protected $requests = [];
@@ -42,6 +47,9 @@ class JsonRpcClient
      */
     public function __construct($uri = '', $config = [])
     {
+        if (isset($config['http_method'])) {
+            $this->httpMethod = $config['http_method'];
+        }
         if (isset($config['return_type'])) {
             $this->returnType = $config['return_type'];
         }
@@ -152,8 +160,12 @@ class JsonRpcClient
     protected function sendRequests()
     {
         $body = $this->buildBody();
-        if ($body) {
-            $res = $this->client->post($this->uri, ['body'=>json_encode($body, JSON_UNESCAPED_UNICODE)]);
+        if ($this->uri && $body) {
+            if (strtolower($this->httpMethod) == 'get') {
+                $res = $this->client->get($this->uri, ['query'=>$body]);
+            } else {
+                $res = $this->client->post($this->uri, ['body' => json_encode($body, JSON_UNESCAPED_UNICODE)]);
+            }
             if ($this->returnType == 'json') {
                 return \GuzzleHttp\json_decode((string)$res->getBody(), true);
             } else {

@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 use Wwtg99\JsonRpc\Exception\JsonRpcError;
 use Wwtg99\JsonRpc\Http\JsonRpcRequest;
 use Wwtg99\JsonRpc\Http\JsonRpcResponse;
-use Wwtg99\JsonRpc\Provider\JsonRpcRouter;
 
 class ProcessHandler
 {
