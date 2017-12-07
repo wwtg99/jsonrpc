@@ -6,7 +6,7 @@
  * Time: 10:14
  */
 
-namespace Wwtg99\Facades;
+namespace Wwtg99\JsonRpc\Facades;
 
 
 use Illuminate\Support\Facades\Facade;
