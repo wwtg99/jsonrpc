@@ -1,15 +1,20 @@
-# Json-RPC Server and Client
+JSON-RPC Server and Client
+==========================
 
-json-rpc 2.0 server and client
+JSON-RPC 2.0 server and client, implementation of [JSON-RPC 2.0](http://www.jsonrpc.org/) for Laravel.
 
-## Installation
+# JSON-RPC specification
+- [英文版](http://www.jsonrpc.org/specification)
+- [中文版](http://wiki.geekdream.com/Specification/json-rpc_2.0.html)
+
+# Installation
 ```
 composer require wwtg99/jsonrpc
 ```
 
-## Usage
-### Server Side
-1. Add JsonRpcServiceProvider in Laravel app providers
+# Usage
+## Server Side
+1. Add JsonRpcServiceProvider in Laravel app providers. There is no need to add manually for Laravel 5.5+.
 ```
 Wwtg99\JsonRpc\Provider\JsonRpcServiceProvider::class
 ```

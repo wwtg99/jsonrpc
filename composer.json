@@ -24,7 +24,7 @@
                 "Wwtg99\\JsonRpc\\Provider\\JsonRpcServiceProvider"
             ],
             "aliases": {
-                "JsonRpc": "Wwtg99\\Facades\\JsonRpc"
+                "JsonRpc": "Wwtg99\\JsonRpc\\Facades\\JsonRpc"
             }
         }
     }
