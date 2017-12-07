@@ -3,8 +3,15 @@ JSON-RPC Server and Client
 
 JSON-RPC 2.0 server and client, implementation of [JSON-RPC 2.0](http://www.jsonrpc.org/) for Laravel.
 
+# Features
+- JSON-RPC 2.0 only
+- Support batch requests and notifications
+- Simple to use for Laravel
+- Require PHP >= 5.6 and GuzzleHttp >= 6.0
+- License: MIT
+
 # JSON-RPC specification
-- [英文版](http://www.jsonrpc.org/specification)
+- [English](http://www.jsonrpc.org/specification)
 - [中文版](http://wiki.geekdream.com/Specification/json-rpc_2.0.html)
 
 # Installation
