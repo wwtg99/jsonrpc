@@ -12,58 +12,73 @@ JSON-RPC 2.0 server and client, implementation of [JSON-RPC 2.0](http://www.json
 composer require wwtg99/jsonrpc
 ```
 
-# Usage
-## Server Side
-1. Add JsonRpcServiceProvider in Laravel app providers. There is no need to add manually for Laravel 5.5+.
+For Lumen or earlier Laravel than v5.5, you need to register the service provider and alias manually,
 ```
 Wwtg99\JsonRpc\Provider\JsonRpcServiceProvider::class
 ```
-
-2. Bind Methods
 ```
-$ph = resolve('ProcessHandler');
-//bind function
-$ph->bind('m1', function($request) {
+'JsonRpc' => Wwtg99\JsonRpc\Facades\JsonRpc::class
+```
+
+# Usage
+## Server Side
+
+### Bind Methods
+
+Bind callback:
+```
+JsonRpc::bind('method1', function($request) {
     return [1, 2, 3];
 });
-//bind method
+
+// Or use handler instance
+$ph = resolve('ProcessHandler');
+$ph->bind('method1', function($request) {
+    return [1, 2, 3];
+});
+```
+
+Bind class method
+```
 namespace Test;
 class BindingTest {
     public function test1($request) 
     {
+        return [1, 2, 3];
     }
 }
-$ph->bind('m2', 'Test\BindingTest@test1');
+JsonRpc::bind('method2', 'Test\BindingTest@test1');
+// Or $ph->bind('method2', 'Test\BindingTest@test1');
 ```
 
-3. Add `use JsonRpcRequestTrait;` in Controller, add codes in your controller
-```
-$res = $this->parseJsonRpc($request);
-return response()->json($res, 200, [], JSON_UNESCAPED_UNICODE);
-```
+### Handle requests
 
-4. Add route
+Add route
 ```
-Route::match(['GET', 'POST'], '/json_rpc', 'YourController@jsonrpc');
+Route::match(['GET', 'POST'], '/json_rpc', function($request) {
+    $res = JsonRpc::parse($request);
+    //other process
+    return response()->json($res);
+});
 ```
-Or simply add route without controller
+Or simply use
 ```
 Route::match(['GET', 'POST'], '/json_rpc', function (Request $request) {
     return Wwtg99\JsonRpc\Provider\JsonRpcRouter::parse($request);
 });
 ```
 
-### Client Side
-1. Send request in client
+## Client Side
+### Send request in client
 ```
 $cli = new JsonRpcClient();
-$req1 = new JsonRpcRequest('m1', 1, [1, 2, 3]);
-$req1 = new JsonRpcRequest('m1', 2, [1, 2, 3]);
+//build requests
+$req1 = new JsonRpcRequest('method1', 1, [1, 2, 3]);
+$req1 = new JsonRpcRequest('method1', 2, [1, 2, 3]);
 //send one request
 $res = $cli->send($req1);
 //send batch requests
 $res = $cli->appendRequest($req1)->appendRequest($req2)->send();
 //send notify
-$cli->notify('m2', ['a'=>'b'])
+$cli->notify('method2', ['a'=>'b'])
 ```
-

@@ -9,9 +9,11 @@
 namespace Wwtg99\JsonRpc\Server;
 
 
+use Illuminate\Http\Request;
 use Wwtg99\JsonRpc\Exception\JsonRpcError;
 use Wwtg99\JsonRpc\Http\JsonRpcRequest;
 use Wwtg99\JsonRpc\Http\JsonRpcResponse;
+use Wwtg99\JsonRpc\Provider\JsonRpcRouter;
 
 class ProcessHandler
 {
@@ -25,6 +27,22 @@ class ProcessHandler
      * @var array|JsonRpcResponse
      */
     protected $responses;
+
+    /**
+     * @param Request $request
+     * @return array
+     */
+    public function parse(Request $request)
+    {
+        $fa = new RequestFactory();
+        $cont = $request->getContent();
+        if ($cont) {
+            $req = $fa->parse($cont);
+        } else {
+            $req = $fa->parse($request->all());
+        }
+        return $this->execute($req)->getResponseArray();
+    }
 
     /**
      * @param array|JsonRpcRequest $request
@@ -83,6 +101,8 @@ class ProcessHandler
     }
 
     /**
+     * Bind method to callback.
+     *
      * @param $method
      * @param $callback
      * @return $this
