@@ -5,7 +5,7 @@
     "authors": [
         {
             "name": "wuwentao",
-            "email": "wwu@genowise.com"
+            "email": "wwt88888@yeah.com"
         }
     ],
     "autoload": {
@@ -18,10 +18,14 @@
         "phpunit/phpunit": "~5.7",
         "laravel/framework": "5.4.*"
     },
-    "repositories": {
-        "packagist": {
-            "type": "composer",
-            "url": "https://packagist.phpcomposer.com"
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Wwtg99\\JsonRpc\\Provider\\JsonRpcServiceProvider"
+            ],
+            "aliases": {
+                "JsonRpc": "Wwtg99\\Facades\\JsonRpc"
+            }
         }
     }
 }

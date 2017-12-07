@@ -13,7 +13,6 @@ class TestClient extends PHPUnit_Framework_TestCase
     {
         parent::setUpBeforeClass();
         require_once '../vendor/autoload.php';
-        require_once 'BindingTest.php';
     }
 
     public function testRequest()

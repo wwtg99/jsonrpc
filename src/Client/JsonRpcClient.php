@@ -26,6 +26,11 @@ class JsonRpcClient
     protected $uri = '';
 
     /**
+     * @var string
+     */
+    protected $returnType = 'json';  //json, string
+
+    /**
      * @var array
      */
     protected $requests = [];
@@ -37,6 +42,9 @@ class JsonRpcClient
      */
     public function __construct($uri = '', $config = [])
     {
+        if (isset($config['return_type'])) {
+            $this->returnType = $config['return_type'];
+        }
         if (!isset($config['verify'])) {
             $config['verify'] = false;
         }
@@ -139,14 +147,18 @@ class JsonRpcClient
     }
 
     /**
-     * @return array|null
+     * @return array|string|null
      */
     protected function sendRequests()
     {
         $body = $this->buildBody();
         if ($body) {
             $res = $this->client->post($this->uri, ['body'=>json_encode($body, JSON_UNESCAPED_UNICODE)]);
-            return \GuzzleHttp\json_decode((string)$res->getBody(), true);
+            if ($this->returnType == 'json') {
+                return \GuzzleHttp\json_decode((string)$res->getBody(), true);
+            } else {
+                return (string)$res->getBody();
+            }
         }
         return null;
     }

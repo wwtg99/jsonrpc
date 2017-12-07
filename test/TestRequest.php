@@ -19,7 +19,7 @@ class TestRequest extends PHPUnit_Framework_TestCase
         $reqf = new \Wwtg99\JsonRpc\Server\RequestFactory();
         $request1 = ['jsonrpc'=>'2.0', 'method'=>'method1', 'params'=>[], 'id'=>1];
         $req1 = $reqf->parse($request1);
-        self::assertInstanceOf('\Wwtg99\JsonRpc\Server\JsonRpcRequest', $req1);
+        self::assertInstanceOf('\Wwtg99\JsonRpc\Http\JsonRpcRequest', $req1);
         self::assertEquals('method1', $req1->getMethod());
         self::assertEquals(1, $req1->getId());
         $request2 = [];
@@ -45,12 +45,12 @@ class TestRequest extends PHPUnit_Framework_TestCase
         self::assertEquals(-32700, $req6->getCode());
         $request7 = '{"jsonrpc":"2.0", "method": "aa", "params": []}';
         $req7 = $reqf->parse($request7);
-        self::assertInstanceOf('\Wwtg99\JsonRpc\Server\JsonRpcRequest', $req7);
+        self::assertInstanceOf('\Wwtg99\JsonRpc\Http\JsonRpcRequest', $req7);
         self::assertEquals('aa', $req7->getMethod());
         $request8 = '[{"jsonrpc":"2.0", "method": "aa", "params": []}, {"jsonrpc":"2.0", "method": "bb"}]';
         $req8 = $reqf->parse($request8);
         self::assertEquals(2, count($req8));
-        self::assertInstanceOf('\Wwtg99\JsonRpc\Server\JsonRpcRequest', $req8[1]);
+        self::assertInstanceOf('\Wwtg99\JsonRpc\Http\JsonRpcRequest', $req8[1]);
         self::assertEquals('bb', $req8[1]->getMethod());
     }
 
@@ -59,7 +59,7 @@ class TestRequest extends PHPUnit_Framework_TestCase
         $reqf = new \Wwtg99\JsonRpc\Server\RequestFactory(true);
         $request1 = ['jsonrpc'=>'2.0', 'method'=>'method1', 'params'=>[], 'id'=>1];
         $req1 = $reqf->parse($request1);
-        self::assertInstanceOf('\Wwtg99\JsonRpc\Server\JsonRpcRequest', $req1);
+        self::assertInstanceOf('\Wwtg99\JsonRpc\Http\JsonRpcRequest', $req1);
         self::assertEquals('method1', $req1->getMethod());
         self::assertEquals(1, $req1->getId());
         $request2 = [];
